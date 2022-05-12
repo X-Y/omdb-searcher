@@ -4,6 +4,7 @@ import {MovieSearch} from '../../interfaces/MovieSearch';
 import axios from "axios";
 import {MovieDetail} from "../../interfaces/MovieDetail";
 import {MovieContent} from "../MovieContent/MovieContent";
+import {getMovieApi} from "../../lib/frontendApi";
 
 interface MovieItemProps extends MovieSearch {
 
@@ -15,13 +16,9 @@ interface MoviesListProps {
 
 const MovieItem:React.FC<MovieItemProps> = ({Title, Year, imdbID}) => {
   const [movieDetail, setMovieDetail] = useState<MovieDetail>({} as MovieDetail);
-  const onLinkClick = () => {
-    axios.get('/api/getMovie', {
-      params: {
-        id: imdbID
-      }
-    })
-      .then(response => setMovieDetail(response.data))//setMovies(response.data.Search));
+  const onLinkClick = async () => {
+    const response = await getMovieApi(imdbID);
+    setMovieDetail(response.data)
   }
   return <li>
     <a onClick={onLinkClick}>

@@ -3,10 +3,13 @@ import axios from "axios";
 
 import {MovieSearch} from "../../interfaces/MovieSearch";
 import {MoviesList} from "../MoviesList/MoviesList";
+import {searchApi} from "../../lib/frontendApi";
 
 export const SearchBar = () => {
   const [movies, setMovies] = useState<MovieSearch[]>([]);
-  const onFormSubmit = (e: FormEvent) => {
+  const onFormSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
     const target = e.target as typeof e.target & {
       title: {value: string};
       type: {value: string};
@@ -18,11 +21,9 @@ export const SearchBar = () => {
       ['releaseYear', target.releaseYear.value]
     ].filter(([, val]) => !!val));
 
-    axios.get('/api/search', {
-      params: searchQueries
-    })
-      .then(response => setMovies(response.data.Search));
-    e.preventDefault();
+    const response = await searchApi(searchQueries);
+    setMovies(response.data.Search);
+
   }
   return <form onSubmit={onFormSubmit}>
     <div>
