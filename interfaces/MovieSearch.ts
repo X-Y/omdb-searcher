@@ -1,4 +1,4 @@
-export interface Movie {
+export interface MovieSearch {
   Poster: string;
   Title: string;
   Type: 'movie' | 'series' | 'episode';
