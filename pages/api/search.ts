@@ -21,12 +21,27 @@ const queryKeys = {
   apiVersion: 'v'
 }
 
+function isValidSearchParam(key: string): key is keyof SearchParams {
+  return key in queryKeys;
+}
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const apiReq = http.get('http://www.omdbapi.com/?s=fiction&apikey=' + process.env.API_KEY, function(apiRes) {
+  const query = req.body;
+
+  const omdbUrl = new URL(process.env.API_URL || '');
+
+  for(const [key, value] of Object.entries(query)) {
+    if(isValidSearchParam(key) && typeof value === 'string') {
+      omdbUrl.searchParams.append(queryKeys[key], value);
+    }
+  }
+
+  omdbUrl.searchParams.append('apikey', process.env.API_KEY || '');
+
+  const apiReq = http.get(omdbUrl.href, function(apiRes) {
     console.log('STATUS: ' + apiRes.statusCode);
     console.log('HEADERS: ' + JSON.stringify(apiRes.headers));
 
