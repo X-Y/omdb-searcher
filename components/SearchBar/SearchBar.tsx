@@ -1,6 +1,10 @@
-import {FormEvent} from "react";
+import {FormEvent, useState} from "react";
+
+import {Movie} from "../../interfaces/Movie";
+import {MoviesList} from "../MoviesList/MoviesList";
 
 export const SearchBar = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
   const onFormSubmit = (e: FormEvent) => {
     const target = e.target as typeof e.target & {
       title: {value: string};
@@ -19,7 +23,7 @@ export const SearchBar = () => {
       body: JSON.stringify(searchQueries)
     })
       .then(res => res.json())
-      .then(data => console.log(data));
+      .then(data => setMovies(data.Search));
     e.preventDefault();
   }
   return <form onSubmit={onFormSubmit}>
@@ -39,6 +43,6 @@ export const SearchBar = () => {
       </label>
       <label>release year: <input type={'number'} min={1850} max={2022} name={'releaseYear'} /></label>
     </div>
-
+    <MoviesList movies={movies} />
   </form>
 }
