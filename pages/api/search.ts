@@ -1,6 +1,27 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import http from 'http';
 
+interface SearchParams {
+  title: string;
+  type?: 'movie' | 'series' | 'episode';
+  releaseYear?: string;
+  dataType?: 'json' | 'xml';
+  page?: number;
+  callback?: string;
+  apiVersion?: number;
+}
+
+const queryKeys = {
+  title: 's',
+  type: 'type',
+  releaseYear: 'y',
+  dataType: 'r',
+  page: 'page',
+  callback: 'callback',
+  apiVersion: 'v'
+}
+
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
