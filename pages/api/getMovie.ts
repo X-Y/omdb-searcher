@@ -3,28 +3,29 @@ import http from 'http';
 
 import omdbApiHandler from '../../lib/api';
 
-
-interface SearchParams {
-  title: string;
+interface GetMovieParams {
+  id?: string;
+  title?: string;
   type?: 'movie' | 'series' | 'episode';
   releaseYear?: string;
+  plot?: 'short' | 'full';
   dataType?: 'json' | 'xml';
-  page?: number;
   callback?: string;
   apiVersion?: number;
 }
 
 const queryKeys = {
-  title: 's',
+  id: 'i',
+  title: 't',
   type: 'type',
   releaseYear: 'y',
+  plot: 'plot',
   dataType: 'r',
-  page: 'page',
   callback: 'callback',
   apiVersion: 'v'
 }
 
-function isValidSearchParam(key: string): key is keyof SearchParams {
+function isValidGetMovieParam(key: string): key is keyof GetMovieParams {
   return key in queryKeys;
 }
 
@@ -37,11 +38,10 @@ export default function handler(
   const query = req.query;
 
   for(const [key, value] of Object.entries(query)) {
-    if(isValidSearchParam(key) && typeof value === 'string') {
+    if(isValidGetMovieParam(key) && typeof value === 'string') {
       searchParams.push([queryKeys[key], value]);
     }
   }
 
   omdbApiHandler(req, res, searchParams);
-
 }
