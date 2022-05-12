@@ -1,10 +1,11 @@
 import {FormEvent, useState} from "react";
+import axios from "axios";
 
-import {Movie} from "../../interfaces/Movie";
+import {MovieSearch} from "../../interfaces/MovieSearch";
 import {MoviesList} from "../MoviesList/MoviesList";
 
 export const SearchBar = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<MovieSearch[]>([]);
   const onFormSubmit = (e: FormEvent) => {
     const target = e.target as typeof e.target & {
       title: {value: string};
@@ -17,13 +18,10 @@ export const SearchBar = () => {
       ['releaseYear', target.releaseYear.value]
     ].filter(([, val]) => !!val));
 
-    fetch('/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(searchQueries)
+    axios.get('/api/search', {
+      params: searchQueries
     })
-      .then(res => res.json())
-      .then(data => setMovies(data.Search));
+      .then(response => setMovies(response.data.Search));
     e.preventDefault();
   }
   return <form onSubmit={onFormSubmit}>
