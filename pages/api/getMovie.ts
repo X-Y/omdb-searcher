@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import http from 'http';
 
-import omdbApiHandler from '../../lib/api';
+import omdbApiHandler from '../../lib/backendApi';
 
 interface GetMovieParams {
   id?: string;
