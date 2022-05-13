@@ -31,7 +31,6 @@ const SearchPage: NextPage = () => {
 
   if(data) {
     if(data.Response === 'True') {
-      console.log(data)
       resultArea = <MovieListResult {...data} />
     } else {
       resultArea = <ErrorResult Error={data.Error} />
