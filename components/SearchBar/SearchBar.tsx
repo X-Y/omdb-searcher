@@ -26,6 +26,6 @@ export const SearchBar:FC<SearchBarProps> = ({text= ''}) => {
   }
   return <form onSubmit={onFormSubmit} className={styles.form}>
       <input className={styles.searchBar} type={'text'} name={'title'} value={title} onChange={onInputChange}/>
-      <Button variant={'contained'}>Search</Button>
+      <Button variant={'contained'} type={'submit'}>Search</Button>
   </form>
 }
