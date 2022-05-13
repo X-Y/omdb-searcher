@@ -8,6 +8,7 @@ interface PaginationProps extends Pick<MovieSearchResult, 'totalResults'> {
 export const Pagination:FC<PaginationProps> = ({totalResults}) => {
   const router = useRouter();
 
+  const {pathname, query} = router;
   const {page} = router.query;
 
   const totalResultNum = parseInt(totalResults || '0', 10);
@@ -23,11 +24,16 @@ export const Pagination:FC<PaginationProps> = ({totalResults}) => {
     if(currentPage !== pageSetterValue) {
       setPageSetterValue(currentPage);
     }
+
+    const prevUrl = router.asPath.replace(/page=\d+/, 'page=' + prevPage)
+    const nextUrl = router.asPath.replace(/page=\d+/, 'page=' + nextPage)
+    router.prefetch(prevUrl);
+    router.prefetch(nextUrl);
+
   }, [router])
 
   const setPage = (page: number) => {
     router.query.page = page + '';
-    const {pathname, query} = router;
     router.push({pathname, query});
   }
 
