@@ -11,15 +11,17 @@ import {searchApi} from "../../lib/frontendApi";
 import {MoviesList} from "../../components/MoviesList/MoviesList";
 import {MovieSearchResult} from "../../interfaces/MovieSearch";
 import {ErrorResult} from "../../components/ErrorResult/ErrorResult";
-
+import {MovieListResult} from "../../components/MovieListResult/MovieListResult";
 
 
 const SearchPage: NextPage = () => {
   const router = useRouter();
 
-  const {title} = router.query;
-  const { status, data, error, isFetching } = useQuery<MovieSearchResult>(['search', title], () => searchApi({
-    title: typeof title === 'string' ? title : ''
+  const {title, page} = router.query;
+
+  const { status, data, error, isFetching } = useQuery<MovieSearchResult>(['search', title, page], () => searchApi({
+    title: typeof title === 'string' ? title : '',
+    page: typeof page === 'string' ? page : ''
   }), {
     enabled: !!title,
     staleTime: 600000
@@ -29,7 +31,8 @@ const SearchPage: NextPage = () => {
 
   if(data) {
     if(data.Response === 'True') {
-      resultArea = <MoviesList movies={data.Search || []} />
+      console.log(data)
+      resultArea = <MovieListResult {...data} />
     } else {
       resultArea = <ErrorResult Error={data.Error} />
     }
