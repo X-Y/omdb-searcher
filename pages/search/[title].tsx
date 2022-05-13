@@ -7,23 +7,32 @@ import { useRouter } from 'next/router'
 import styles from '../../styles/Home.module.css'
 
 import {SearchBar} from "../../components/SearchBar/SearchBar";
-import {useContext} from "react";
 import {searchApi} from "../../lib/frontendApi";
 import {MoviesList} from "../../components/MoviesList/MoviesList";
+import {MovieSearchResult} from "../../interfaces/MovieSearch";
+import {ErrorResult} from "../../components/ErrorResult/ErrorResult";
+
+
 
 const SearchPage: NextPage = () => {
   const router = useRouter();
 
   const {title} = router.query;
-  const { status, data, error, isFetching } = useQuery(['search', title], () => searchApi({
+  const { status, data, error, isFetching } = useQuery<MovieSearchResult>(['search', title], () => searchApi({
     title: typeof title === 'string' ? title : ''
   }), {
     enabled: !!title,
     staleTime: 600000
   });
 
+  let resultArea;
+
   if(data) {
-    console.log(data);
+    if(data.Response === 'True') {
+      resultArea = <MoviesList movies={data.Search || []} />
+    } else {
+      resultArea = <ErrorResult Error={data.Error} />
+    }
   }
 
   return (
@@ -44,10 +53,11 @@ const SearchPage: NextPage = () => {
         {
           status === 'loading' ?
             <div>Is Loading...</div>
-            : status === 'error' ?
-            <div>Error: {error.message}</div>
-            : <MoviesList movies={data?.Search || []} />
+            : status === 'error' &&
+              <div>Something happened, please try again!</div>
         }
+
+        { resultArea }
       </main>
     </div>
   )
