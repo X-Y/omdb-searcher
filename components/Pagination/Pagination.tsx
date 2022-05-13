@@ -1,6 +1,11 @@
 import { useRouter } from 'next/router'
-import {MovieSearchResult} from "../../interfaces/MovieSearch";
 import {ChangeEvent, FC, useEffect, useRef, useState} from "react";
+import Button from '@mui/material/Button';
+
+import {MovieSearchResult} from "../../interfaces/MovieSearch";
+
+import styles from '../../styles/Pagination.module.css'
+
 
 interface PaginationProps extends Pick<MovieSearchResult, 'totalResults'> {
 
@@ -51,9 +56,11 @@ export const Pagination:FC<PaginationProps> = ({totalResults}) => {
     const pageToSet = Math.min(Math.max(inputValue, 1), totalPages);
     setPageSetterValue(pageToSet);
   }
-  return <div>
-    <button onClick={onPrevClick}>prev</button>
-    <input type={'text'} value={pageSetterValue} onChange={onPageSetterChange} onBlur={onPageSet}/>/{totalPages}
-    <button onClick={onNextClick}>next</button>
+  return <div className={styles.pagination}>
+    <Button variant={'contained'} size='small' onClick={onPrevClick}>{'<'}</Button>
+
+    <input className={styles.pageSetter} type={'text'} value={pageSetterValue} onChange={onPageSetterChange} onBlur={onPageSet}/>
+    <span>/{totalPages}</span>
+    <Button variant={'contained'} size='small' onClick={onNextClick}>{'>'}</Button>
   </div>
 }

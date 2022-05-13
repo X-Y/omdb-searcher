@@ -1,0 +1,7 @@
+.MovieListResult {
+    width: 100%;
+}
+.MovieList {
+    max-width: 50rem;
+    margin: auto;
+}

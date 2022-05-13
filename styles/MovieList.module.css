@@ -1,0 +1,19 @@
+.MovieList li{
+    display: flex;
+    gap: 1rem;
+
+    line-height: 2rem;
+}
+
+.MovieList li:nth-child(even){
+    background-color: aliceblue;
+}
+.title {
+    flex-grow: 1;
+}
+.year {
+    min-width: 5rem;
+}
+.type {
+    width: 5rem;
+}

@@ -1,5 +1,8 @@
 import {ChangeEvent, FC, FormEvent, useEffect, useState} from "react";
 import { useRouter } from 'next/router';
+import Button from '@mui/material/Button';
+
+import styles from '../../styles/SearchBar.module.css'
 
 interface SearchBarProps {
   text?: string;
@@ -21,10 +24,8 @@ export const SearchBar:FC<SearchBarProps> = ({text= ''}) => {
   const onInputChange = (e:ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   }
-  return <form onSubmit={onFormSubmit}>
-    <div>
-      <input type={'text'} name={'title'} value={title} onChange={onInputChange}/>
-      <button>Search</button>
-    </div>
+  return <form onSubmit={onFormSubmit} className={styles.form}>
+      <input className={styles.searchBar} type={'text'} name={'title'} value={title} onChange={onInputChange}/>
+      <Button variant={'contained'}>Search</Button>
   </form>
 }

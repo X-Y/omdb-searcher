@@ -1,0 +1,9 @@
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+}
+.pageSetter {
+    width: 3rem;
+}

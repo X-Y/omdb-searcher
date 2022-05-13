@@ -1,0 +1,10 @@
+.form {
+    width: 100%;
+    max-width: 40rem;
+    display: flex;
+    margin-top: 3rem;
+}
+.searchBar {
+    flex-grow: 1;
+    margin-right: 1rem;
+}
