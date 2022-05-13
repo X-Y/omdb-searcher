@@ -5,3 +5,10 @@ export interface MovieSearch {
   Year: string;
   imdbID: string;
 }
+
+export interface MovieSearchResult {
+  Response: 'True' | 'False';
+  Search?: MovieSearch[];
+  totalResult?: string;
+  Error?: string;
+}
