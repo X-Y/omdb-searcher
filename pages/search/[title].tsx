@@ -27,6 +27,8 @@ const SearchPage: NextPage = () => {
     staleTime: 600000
   });
 
+  const searchBarText = typeof title === 'string' ? title : '';
+
   let resultArea;
 
   if(data) {
@@ -50,7 +52,7 @@ const SearchPage: NextPage = () => {
           Welcome to OMDB Searcher
         </h1>
 
-        <SearchBar />
+        <SearchBar text={searchBarText}/>
 
         {
           status === 'loading' ?
