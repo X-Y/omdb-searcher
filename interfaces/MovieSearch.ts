@@ -9,6 +9,6 @@ export interface MovieSearch {
 export interface MovieSearchResult {
   Response: 'True' | 'False';
   Search?: MovieSearch[];
-  totalResult?: string;
+  totalResults?: string;
   Error?: string;
 }
