@@ -12,13 +12,9 @@ export const SearchBar = () => {
 
     const target = e.target as typeof e.target & {
       title: {value: string};
-      type: {value: string};
-      releaseYear: {value: number}
     }
     const searchQueries = Object.fromEntries([
       ['title', target.title.value],
-      ['type', target.type.value],
-      ['releaseYear', target.releaseYear.value]
     ].filter(([, val]) => !!val));
 
     const response = await searchApi(searchQueries);
@@ -31,17 +27,6 @@ export const SearchBar = () => {
       <button>Search</button>
     </div>
 
-    <div>
-      <label>type:
-        <select name={'type'}>
-          <option value={''}>---</option>
-          <option value={'movie'}>Movie</option>
-          <option value={'series'}>Series</option>
-          <option value={'episode'}>Episode</option>
-        </select>
-      </label>
-      <label>release year: <input type={'number'} min={1850} max={2022} name={'releaseYear'} /></label>
-    </div>
     <MoviesList movies={movies} />
   </form>
 }
